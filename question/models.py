@@ -1,16 +1,24 @@
-from django.conf import settings
 from django.db import models
+from django.conf import settings
+from accounts.models import User
 
+class Quest(models.Model):
+    qid = models.AutoField(primary_key=True, null=False, blank=False)
+    quser = models.ForeignKey(User, on_delete=models.CASCADE)
+    qtitle = models.CharField(max_length=50)
+    quest_text = models.TextField()
+    qimage = models.ImageField(null=True, blank=True)
+    qcreated_at = models.DateTimeField(auto_now_add=True)
+    qupdated_at = models.DateTimeField(auto_now_add=True)
 
-class Question(models.Model):
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, db_column='author')  # 작성자는 유저 !
-    q_title = models.CharField(max_length=50)
-    q_content = models.TextField()
-    q_created_at = models.DateTimeField(auto_now_add=True) # 생성시 자동으로 시간저장
-    q_updated_at = models.DateTimeField(auto_now=True) # 수정시 자동으로 시간저장
+    def __str__(self) -> str:
+        return self.qtitle
 
-# 테이블명을 따로 지정
-    class Meta:
-        db_table = 'question'
-        ordering = ['-id'] # 정렬기준 최신순
+#댓글
+class QComment(models.Model):
+    quest = models.ForeignKey(Quest, on_delete=models.CASCADE, related_name='qcomments')
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comment_text = models.CharField(max_length=500)
+
+    def __str__(self) -> str:
+        return self.comment_text
