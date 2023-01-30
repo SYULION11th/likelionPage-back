@@ -23,7 +23,7 @@ for key, value in secrets.items():
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -162,7 +162,10 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',  # 누구나 접근 가능
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT를 통한 인증방식 사용
+        'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
 }
 

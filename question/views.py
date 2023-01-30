@@ -32,4 +32,6 @@ class QCommentViewSet(viewsets.ModelViewSet):
     serializer_class = QCommentSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(
+            user=self.request.user, 
+            quest = Quest.objects.get(pk=self.kwargs.get("quest_pk")))

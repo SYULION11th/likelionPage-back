@@ -13,9 +13,9 @@ class QCommentSerializer(serializers.ModelSerializer):
 
 class QuestSerializer(serializers.ModelSerializer):
     user = serializers.ReadOnlyField(source = 'user.email')
-    comment = QCommentSerializer(many=True)
+    qcomment = QCommentSerializer(many=True, read_only = True)
 
     class Meta:
         model = Quest
         fields = '__all__'
-        read_only_fields = ['quser', 'qcreated_at', 'qupdated_at','qcomment']
+        read_only_fields = ['user', 'qcreated_at', 'qupdated_at','qcomment']

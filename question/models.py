@@ -4,7 +4,7 @@ from accounts.models import User
 
 class Quest(models.Model):
     qid = models.AutoField(primary_key=True, null=False, blank=False)
-    quser = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     qtitle = models.CharField(max_length=50)
     quest_text = models.TextField()
     qimage = models.ImageField(null=True, blank=True)
