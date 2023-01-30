@@ -16,7 +16,7 @@ class Quest(models.Model):
 
 #댓글
 class QComment(models.Model):
-    quest = models.ForeignKey(Quest, on_delete=models.CASCADE, related_name='qcomments')
+    quest_id = models.ForeignKey(Quest, related_name="qcomment", on_delete=models.CASCADE, db_column="qid")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     comment_text = models.CharField(max_length=500)
 

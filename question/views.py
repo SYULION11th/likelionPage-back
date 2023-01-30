@@ -28,9 +28,11 @@ class QuestViewSet(viewsets.ModelViewSet):
 
 #QComment
 class QCommentViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
     queryset = QComment.objects.all()
     serializer_class = QCommentSerializer
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
-        
+        serializer.save(
+            user=self.request.user)
