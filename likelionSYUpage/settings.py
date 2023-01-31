@@ -62,6 +62,8 @@ INSTALLED_APPS = [
 
 ]
 
+CSRF_TRUSTED_ORIGINS = ['https://port-0-likelionpage-back-1jx7m2gldjq856s.gksl2.cloudtype.app', 'http://0:8000']
+
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
