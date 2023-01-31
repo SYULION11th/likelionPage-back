@@ -1,7 +1,7 @@
 from .models import Quest, QComment
 from .serializers import QuestSerializer, QCommentSerializer
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.pagination import PageNumberPagination
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.filters import SearchFilter
@@ -12,7 +12,7 @@ class QuestPagination(PageNumberPagination):
 
 # Quest - CRUD 모두 가능
 class QuestViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly]
     authentication_classes = [JWTAuthentication]
     pagination_class = QuestPagination
 
