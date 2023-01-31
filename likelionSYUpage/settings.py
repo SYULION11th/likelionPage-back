@@ -9,7 +9,7 @@ pymysql.install_as_MySQLdb() #RDS Mysql 연결
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
-SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
+# SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
 
 # secrets = json.loads(open(SECRET_BASE_FILE).read())
 # for key, value in secrets.items():
@@ -94,18 +94,20 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'likelionSYUpage.wsgi.application'
 
-secret_file = os.path.join(BASE_DIR, 'secrets.json')
+# secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-with open(secret_file) as f:
-    secrets = json.loads(f.read())
+# with open(secret_file) as f:
+#     secrets = json.loads(f.read())
+
 
 #환경변수 분리
-def get_env_variable(key):
-    try:
-        return secrets[key]
-    except KeyError:
-        error_msg = f"Set the {key} environment variable"
-        raise ImproperlyConfigured(error_msg)
+def get_env_variable(var_name):
+  try:
+    return os.environ[var_name]
+  except KeyError:
+    error_msg = 'Set the {} environment variable'.format(var_name)
+    raise ImproperlyConfigured(error_msg)
+
 
 SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
 
@@ -227,7 +229,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': secrets["DJANGO_SECRET_KEY"],
+    'SIGNING_KEY': get_env_variable('DJANGO_SECRET_KEY'),
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
