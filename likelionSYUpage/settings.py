@@ -10,11 +10,11 @@ pymysql.install_as_MySQLdb() #RDS Mysql 연결
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
-SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
+# SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
 
-secrets = json.loads(open(SECRET_BASE_FILE).read())
-for key, value in secrets.items():
-    setattr(sys.modules[__name__], key, value)
+# secrets = json.loads(open(SECRET_BASE_FILE).read())
+# for key, value in secrets.items():
+#     setattr(sys.modules[__name__], key, value)
 
 
 # Quick-start development settings - unsuitable for production
