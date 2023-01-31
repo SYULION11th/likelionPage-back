@@ -8,6 +8,5 @@ router.register('qcomment', QCommentViewSet)
 
 urlpatterns =[
     path('', include(router.urls)),
-    
     path('user/', include('accounts.urls')),
 ]

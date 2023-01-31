@@ -2,16 +2,18 @@ from pathlib import Path
 import os, json, sys
 import pymysql
 from pathlib import Path
+from django.core.exceptions import ImproperlyConfigured
 
 pymysql.install_as_MySQLdb() #RDS Mysql 연결
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 ROOT_DIR = os.path.dirname(BASE_DIR)
-SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
-secrets = json.loads(open(SECRET_BASE_FILE).read())
-for key, value in secrets.items():
-    setattr(sys.modules[__name__], key, value)
+# SECRET_BASE_FILE = os.path.join(BASE_DIR, 'secrets.json')
+
+# secrets = json.loads(open(SECRET_BASE_FILE).read())
+# for key, value in secrets.items():
+#     setattr(sys.modules[__name__], key, value)
 
 
 # Quick-start development settings - unsuitable for production
@@ -24,7 +26,8 @@ for key, value in secrets.items():
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
 
 # Application definition
 
@@ -54,9 +57,13 @@ INSTALLED_APPS = [
     'rest_auth',
     'rest_framework_simplejwt',
 
+    #cors
+    'corsheaders',
+
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -64,6 +71,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware', 
 ]
 
 ROOT_URLCONF = 'likelionSYUpage.urls'
@@ -86,6 +94,36 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'likelionSYUpage.wsgi.application'
 
+# secret_file = os.path.join(BASE_DIR, 'secrets.json')
+
+# with open(secret_file) as f:
+#     secrets = json.loads(f.read())
+
+
+#환경변수 분리
+def get_env_variable(var_name):
+  try:
+    return os.environ[var_name]
+  except KeyError:
+    error_msg = 'Set the {} environment variable'.format(var_name)
+    raise ImproperlyConfigured(error_msg)
+
+
+SECRET_KEY = get_env_variable('DJANGO_SECRET_KEY')
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+		'NAME': get_env_variable('DATABASE'),
+        'USER': get_env_variable('DB_USER'),
+        'PASSWORD': get_env_variable('DB_PASSWORD'),
+        'HOST': get_env_variable('DB_HOST'),
+        'PORT': get_env_variable('DB_PORT'),
+        'OPTIONS':{
+            'init_command' : "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -136,13 +174,15 @@ USE_TZ = False
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'static',
-]
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / 'static',
+# ]
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static'),
+# ]
 
 AUTH_USER_MODEL = 'accounts.User'
 
@@ -189,7 +229,7 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
-    'SIGNING_KEY': secrets["SECRET_KEY"],
+    'SIGNING_KEY': get_env_variable('DJANGO_SECRET_KEY'),
     'VERIFYING_KEY': None,
     'AUDIENCE': None,
     'ISSUER': None,
@@ -213,7 +253,7 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-STATIC_ROOT = os.path.join('staticfiles')
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
