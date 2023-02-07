@@ -10,9 +10,9 @@ class JungBo(models.Model):
     # 학번
     studentid = models.IntegerField()
     # 학년
-    grade = models.IntegerField(default=0)
+    grade = models.CharField(max_length=5)
     # 전화번호
-    phone = models.CharField(max_length=11)
+    phone = models.CharField(max_length=13)
     # 이메일(개인)
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
     # 내용
