@@ -19,13 +19,13 @@ class JungBo(models.Model):
     content = models.TextField()
 
     #내용 : 트랙선택 및 관련 경험
-    track = models.TextField(default='')
+    track = models.TextField()
     
     #내용 : 협업 경험
-    cooperation = models.TextField(null=True, default='')
+    cooperation = models.TextField(null=True)
     
     #시간 할애(열정) :    
-    spend_time = models.TextField(default='')
+    spend_time = models.TextField()
 
     # 작성일
     created_at = models.DateTimeField(auto_now_add=True)
