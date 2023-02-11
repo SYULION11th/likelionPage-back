@@ -97,10 +97,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'likelionSYUpage.wsgi.application'
 
-# secret_file = os.path.join(BASE_DIR, 'secrets.json')
+secret_file = os.path.join(BASE_DIR, 'secrets.json')
 
-# with open(secret_file) as f:
-#     secrets = json.loads(f.read())
+with open(secret_file) as f:
+    secrets = json.loads(f.read())
 
 
 # 환경변수 분리
