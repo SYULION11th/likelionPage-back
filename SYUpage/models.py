@@ -17,16 +17,12 @@ class JungBo(models.Model):
     email = models.EmailField(max_length=30, unique=True, null=False, blank=False)
     # 내용 : 지원동기
     content = models.TextField()
-
     #내용 : 트랙선택 및 관련 경험
     track = models.TextField()
-    
     #내용 : 협업 경험
     cooperation = models.TextField(null=True)
-    
     #시간 할애(열정) :    
     spend_time = models.TextField()
-
     # 작성일
     created_at = models.DateTimeField(auto_now_add=True)
     

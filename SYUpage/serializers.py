@@ -5,4 +5,4 @@ class JungBoSerializer(serializers.ModelSerializer):
    # user = serializers.ReadOnlyField(source = 'user.nickname')
     class Meta:
         model = JungBo
-        fields = ['name', 'Department', 'studentid', 'grade', 'phone', 'email', 'content', 'created_at']
+        fields = ['name', 'Department', 'studentid', 'grade', 'phone', 'email', 'content', 'track', 'cooperation', 'spend_time', 'created_at']
