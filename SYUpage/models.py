@@ -50,7 +50,7 @@ class JungBo(models.Model):
     session = models.CharField(max_length=100, default='')
    
     #github 첨부
-    github = models.URLField(null=True)
+    github = models.URLField(null=True, blank=True)
     
     # 작성일
     created_at = models.DateTimeField(auto_now_add=True)
